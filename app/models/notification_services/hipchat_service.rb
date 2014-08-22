@@ -9,6 +9,10 @@ if defined? HipChat
         :placeholder => "Room name",
         :label       => "Room name"
       }],
+      [:api_version, {
+        :placeholder => "v1 or v2",
+        :label       => "API version"
+      }]
     ]
 
     def check_params
@@ -29,7 +33,7 @@ if defined? HipChat
         &nbsp;&nbsp;Times occurred: #{problem.notices_count}
       MSG
 
-      client = HipChat::Client.new(api_token)
+      client = HipChat::Client.new(api_token, api_version.blank? ? {} : {:api_version => api_version})
       client[room_id].send('Errbit', message, :color => 'red')
     end
   end
